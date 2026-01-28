@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/core/context-manager.js --file-text "/**
+/**
  * ContextManager - Manages different terminal contexts (local, BBS, SSH)
  * Handles context switching and command routing
  */
