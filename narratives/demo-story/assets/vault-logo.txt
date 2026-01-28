@@ -1,0 +1,27 @@
+Ahora voy a crear algunos archivos de assets ASCII art para el sistema BBS y actualizar el sistema para habilitar el flag de SSH:
+Action: file_editor create /app/terminal-engine/narratives/demo-story/assets/vault-logo.txt --file-text "           _____                    _____                    _____          
+          /\    \                  /\    \                  /\    \         
+         /::\____\                /::\    \                /::\    \        
+        /:::/    /               /::::\    \              /::::\    \       
+       /:::/    /               /::::::\    \            /::::::\    \      
+      /:::/    /               /:::/\:::\    \          /:::/\:::\    \     
+     /:::/____/               /:::/__\:::\    \        /:::/__\:::\    \    
+    /::::\    \              /::::\   \:::\    \      /::::\   \:::\    \   
+   /::::::\    \   _____    /::::::\   \:::\    \    /::::::\   \:::\    \  
+  /:::/\:::\    \ /\    \  /:::/\:::\   \:::\    \  /:::/\:::\   \:::\____\ 
+ /:::/  \:::\    /::\____\/:::/  \:::\   \:::\____\/:::/  \:::\   \:::|    |
+ \::/    \:::\  /:::/    /\::/    \:::\  /:::/    /\::/   |::::\  /:::|____|
+  \/____/ \:::\/:::/    /  \/____/ \:::\/:::/    /  \/____|:::::\/:::/    / 
+           \::::::/    /            \::::::/    /         |:::::::::/    /  
+            \::::/    /              \::::/    /          |::|\::::/    /   
+            /:::/    /               /:::/    /           |::| \::/____/    
+           /:::/    /               /:::/    /            |::|  ~|          
+          /:::/    /               /:::/    /             |::|   |          
+         /:::/    /               /:::/    /              \::|   |          
+         \::/    /                \::/    /                \:|   |          
+          \/____/                  \/____/                  \|___|          
+                                                                             
+               W A S T E L A N D   T E R M I N A L
+                     Post-Apocalyptic Network
+"
+Observation: Create successful: /app/terminal-engine/narratives/demo-story/assets/vault-logo.txt
