@@ -1,5 +1,4 @@
-Continuando con los archivos core del motor:
-Action: file_editor create /app/terminal-engine/core/terminal-renderer.js --file-text "/**
+/**
  * TerminalRenderer - Handles output rendering with typing effects
  * Manages terminal display, scrolling, and visual effects
  */
@@ -207,8 +206,8 @@ class TerminalRenderer {
         container.className = 'output-line';
         container.innerHTML = `
             <div>${label}</div>
-            <div class=\"progress-bar\">
-                <div class=\"progress-fill\" style=\"width: 0%\"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
             </div>
         `;
         this.outputElement.appendChild(container);
@@ -281,6 +280,22 @@ class TerminalApp {
         this.contextManager = new ContextManager(this.commandRegistry);
         await this.contextManager.initialize();
 
+        // Import and register contexts dynamically
+        const { LocalShell } = await import('../contexts/local-shell.js');
+        const { BBSSystem } = await import('../contexts/bbs-system.js');
+        const { SSHClient } = await import('../contexts/ssh-client.js');
+
+        const localShell = new LocalShell();
+        const bbsSystem = new BBSSystem();
+        const sshClient = new SSHClient();
+
+        this.contextManager.registerContext('localhost', localShell);
+        this.contextManager.registerContext('bbs', bbsSystem);
+        this.contextManager.registerContext('ssh', sshClient);
+
+        // Switch to initial context
+        await this.contextManager.switchContext('localhost', { firstTime: true });
+
         // Initialize input handler
         this.inputHandler = new InputHandler(this.commandRegistry, this.contextManager);
         this.inputHandler.initialize();
@@ -292,6 +307,47 @@ class TerminalApp {
         eventBus.on('achievement:unlocked', (data) => {
             this.renderer.showAchievement(data.achievement);
         });
+
+        // Setup minigame listener
+        eventBus.on('minigame:start', async (data) => {
+            await this.startMinigame(data);
+        });
+    }
+
+    /**
+     * Start a minigame
+     * @param {Object} data - Minigame data
+     */
+    async startMinigame(data) {
+        if (data.type === 'password_crack') {
+            await this.passwordCrackMinigame(data.target);
+        }
+    }
+
+    /**
+     * Password cracking minigame
+     * @param {string} target - Target system
+     */
+    async passwordCrackMinigame(target) {
+        const passwords = ['RAVEN', 'SHADOW', 'VAULT', 'OMEGA', 'ALPHA'];
+        const correctPassword = 'RAVEN_NIGHT_SHADOW';
+        
+        await this.renderer.print('\n╔════════════════════════════════════════════╗', 'text-warning');
+        await this.renderer.print('║   PASSWORD CRACKING SEQUENCE INITIATED     ║', 'text-warning');
+        await this.renderer.print('╚════════════════════════════════════════════╝\n', 'text-warning');
+        
+        await this.renderer.print(`Target: ${target}`, 'text-info');
+        await this.renderer.print('Analyzing security protocols...\n', 'text-dim');
+        
+        await this.renderer.sleep(1000);
+        
+        await this.renderer.print('Found password fragments:', 'text-success');
+        passwords.forEach(pass => {
+            this.renderer.print(`  ${pass}_`, 'text-info');
+        });
+        
+        await this.renderer.print('\nCombine fragments to create full password.', 'text-dim');
+        await this.renderer.print('Hint: Check downloaded files for the complete sequence.\n', 'text-dim');
     }
 
     /**
@@ -332,11 +388,9 @@ class TerminalApp {
         await this.renderer.print('════════════════════════════════════════════════\n', 'text-dim');
         
         await this.renderer.print('Your mission: Investigate mysterious transmissions', 'text-warning');
-        await this.renderer.print('Type \"help\" for available commands', 'text-dim');
-        await this.renderer.print('Type \"cat welcome.txt\" to read your briefing\n', 'text-dim');
+        await this.renderer.print('Type "help" for available commands', 'text-dim');
+        await this.renderer.print('Type "cat welcome.txt" to read your briefing\n', 'text-dim');
     }
 }
 
 export { TerminalRenderer, TerminalApp };
-"
-Observation: Create successful: /app/terminal-engine/core/terminal-renderer.js
