@@ -1,0 +1,63 @@
+Ahora voy a crear el proyecto completo del motor de terminal narrativa. Comenzaré implementando todas las fases de forma modular.
+Action: file_editor create /app/terminal-engine/index.html --file-text "<!DOCTYPE html>
+<html lang=\"es\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>TERMINAL OS v2.1 - Post-Apocalyptic System</title>
+    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+    <link href=\"https://fonts.googleapis.com/css2?family=VT323&display=swap\" rel=\"stylesheet\">
+    <link rel=\"stylesheet\" href=\"css/terminal.css\">
+</head>
+<body>
+    <div id=\"terminal-container\">
+        <div id=\"terminal-header\">
+            <span id=\"system-status\">SYSTEM ONLINE</span>
+            <span id=\"connection-status\">LOCAL</span>
+        </div>
+        <div id=\"terminal-output\"></div>
+        <div id=\"terminal-input-line\">
+            <span id=\"prompt\">root@vault-tec:~$</span>
+            <input type=\"text\" id=\"terminal-input\" autocomplete=\"off\" spellcheck=\"false\" autofocus>
+            <span id=\"cursor\">█</span>
+        </div>
+    </div>
+
+    <!-- Core Engine -->
+    <script type=\"module\" src=\"core/event-bus.js\"></script>
+    <script type=\"module\" src=\"core/state-manager.js\"></script>
+    <script type=\"module\" src=\"core/filesystem.js\"></script>
+    <script type=\"module\" src=\"core/terminal-renderer.js\"></script>
+    <script type=\"module\" src=\"core/input-handler.js\"></script>
+    <script type=\"module\" src=\"core/command-registry.js\"></script>
+    <script type=\"module\" src=\"core/context-manager.js\"></script>
+
+    <!-- Utils -->
+    <script type=\"module\" src=\"utils/ascii-renderer.js\"></script>
+    <script type=\"module\" src=\"utils/logger.js\"></script>
+    <script type=\"module\" src=\"utils/validator.js\"></script>
+
+    <!-- Contexts -->
+    <script type=\"module\" src=\"contexts/base-context.js\"></script>
+    <script type=\"module\" src=\"contexts/local-shell.js\"></script>
+    <script type=\"module\" src=\"contexts/bbs-system.js\"></script>
+    <script type=\"module\" src=\"contexts/ssh-client.js\"></script>
+
+    <!-- Narratives -->
+    <script type=\"module\" src=\"narratives/narrative-loader.js\"></script>
+
+    <!-- Main App -->
+    <script type=\"module\">
+        import { TerminalApp } from './core/terminal-renderer.js';
+        
+        // Initialize terminal app
+        window.addEventListener('DOMContentLoaded', () => {
+            window.terminalApp = new TerminalApp();
+            window.terminalApp.initialize();
+        });
+    </script>
+</body>
+</html>
+"
+Observation: Create successful: /app/terminal-engine/index.html
