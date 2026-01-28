@@ -1,0 +1,73 @@
+Ahora voy a crear los archivos de configuración de la narrativa demo y archivos adicionales:
+Action: file_editor create /app/terminal-engine/narratives/demo-story/config.json --file-text "{
+  \"narrative\": \"wasteland-mystery\",
+  \"version\": \"1.0\",
+  \"startContext\": \"localhost\",
+  \"description\": \"A post-apocalyptic mystery adventure combining investigation and hacking\",
+  
+  \"systems\": [
+    {
+      \"id\": \"localhost\",
+      \"type\": \"local\",
+      \"hostname\": \"vault-tec-terminal\",
+      \"filesystem\": {
+        \"/home/vault-dweller\": [
+          \"welcome.txt\",
+          \"notes.txt\",
+          \"downloads/\"
+        ]
+      }
+    },
+    {
+      \"id\": \"darknet-bbs\",
+      \"type\": \"bbs\",
+      \"address\": \"darknet.bbs.net\",
+      \"requiresAuth\": true,
+      \"credentials\": {
+        \"user\": \"ghost\",
+        \"pass\": \"shadow1337\"
+      },
+      \"menus\": {
+        \"main\": [\"Messages\", \"Files\", \"Users\", \"Info\", \"Logout\"],
+        \"files\": [\"vault-map.txt\", \"radio-frequencies.txt\", \"research-notes.txt\"]
+      }
+    },
+    {
+      \"id\": \"vault-mainframe\",
+      \"type\": \"ssh\",
+      \"address\": \"vault-mainframe.local\",
+      \"requiresAuth\": true,
+      \"password\": \"RAVEN_NIGHT_SHADOW\"
+    }
+  ],
+  
+  \"progression\": {
+    \"flags\": [
+      \"found_credentials\",
+      \"bbs_authenticated\",
+      \"downloaded_research_notes\",
+      \"ssh_authenticated\",
+      \"used_raven_code\",
+      \"scanned_mainframe\",
+      \"mission_complete\"
+    ],
+    \"winCondition\": {
+      \"flags\": [\"mission_complete\"]
+    }
+  },
+  
+  \"dialogues\": {
+    \"intro\": \"Welcome to the Wasteland Investigation Network.\nYour mission: Uncover the truth behind Project RAVEN.\nStart by exploring your local files.\",
+    \"victory\": \"╔═══════════════════════════════════════════╗\n║   MISSION ACCOMPLISHED!                   ║\n║   You've successfully accessed            ║\n║   Project RAVEN mainframe.                ║\n║                                           ║\n║   The truth is now revealed...            ║\n╚═══════════════════════════════════════════╝\"
+  },
+  
+  \"hints\": {
+    \"start\": \"Try reading welcome.txt and notes.txt in your home directory\",
+    \"credentials\": \"Hidden files start with a dot (.). Use 'ls -a' to see them\",
+    \"bbs\": \"Connect to BBS using: telnet darknet.bbs.net\",
+    \"password\": \"Combine password fragments from different sources\",
+    \"ssh\": \"SSH to vault-mainframe.local after finding the complete password\"
+  }
+}
+"
+Observation: Create successful: /app/terminal-engine/narratives/demo-story/config.json
