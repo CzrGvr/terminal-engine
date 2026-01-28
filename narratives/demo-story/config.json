@@ -1,5 +1,4 @@
-Ahora voy a crear los archivos de configuración de la narrativa demo y archivos adicionales:
-Action: file_editor create /app/terminal-engine/narratives/demo-story/config.json --file-text "{
+{
   \"narrative\": \"wasteland-mystery\",
   \"version\": \"1.0\",
   \"startContext\": \"localhost\",
