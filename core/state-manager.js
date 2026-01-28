@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/core/state-manager.js --file-text "/**
+/**
  * StateManager - Persistent state management with localStorage
  * Handles narrative progression, flags, inventory, and save/load
  */
