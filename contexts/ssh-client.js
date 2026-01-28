@@ -1,5 +1,5 @@
 
-Action: file_editor create /app/terminal-engine/contexts/ssh-client.js --file-text "/**
+/**
  * SSHClient - SSH connection context
  * Simulates SSH connection to remote systems with latency
  */
