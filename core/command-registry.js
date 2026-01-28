@@ -202,5 +202,3 @@ class CommandRegistry {
 }
 
 export { CommandRegistry };
-"
-Observation: Create successful: /app/terminal-engine/core/command-registry.js
