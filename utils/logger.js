@@ -130,5 +130,4 @@ class Logger {
 const logger = new Logger();
 
 export { logger, Logger };
-"
-Observation: Create successful: /app/terminal-engine/utils/logger.js
+
