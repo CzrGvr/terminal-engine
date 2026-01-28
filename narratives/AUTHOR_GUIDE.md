@@ -1,4 +1,4 @@
- * GUÍA PARA AUTORES DE NARRATIVAS
+# GUÍA PARA AUTORES DE NARRATIVAS
  * Terminal Narrative Engine
  */
 
