@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/narratives/narrative-loader.js --file-text "/**
+/**
  * NarrativeLoader - Loads and validates narrative configurations from JSON
  */
 
