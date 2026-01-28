@@ -68,5 +68,4 @@
     \"ssh\": \"SSH to vault-mainframe.local after finding the complete password\"
   }
 }
-"
-Observation: Create successful: /app/terminal-engine/narratives/demo-story/config.json
+
