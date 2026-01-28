@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mostrar mensaje de bienvenida
         renderer.printWelcome();
 
-        console.log('✅ Terminal Engine initialized successfully');
+        console.log('Terminal Engine initialized successfully');
         
         // Guardar globalmente para debugging
         window.terminal = {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
     } catch (error) {
-        console.error('❌ Failed to initialize Terminal Engine:', error);
+        console.error('Failed to initialize Terminal Engine:', error);
         document.body.innerHTML = `
             <div style="color: red; font-family: monospace; padding: 20px;">
                 <h2>TERMINAL INITIALIZATION FAILED</h2>
