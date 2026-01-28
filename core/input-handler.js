@@ -321,5 +321,4 @@ class InputHandler {
 }
 
 export { InputHandler };
-"
-Observation: Create successful: /app/terminal-engine/core/input-handler.js
+
