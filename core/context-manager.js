@@ -150,5 +150,4 @@ class ContextManager {
 }
 
 export { ContextManager };
-"
-Observation: Create successful: /app/terminal-engine/core/context-manager.js
+
