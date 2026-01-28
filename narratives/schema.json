@@ -1,0 +1,98 @@
+
+Action: file_editor create /app/terminal-engine/narratives/schema.json --file-text "{
+  \"$schema\": \"http://json-schema.org/draft-07/schema#\",
+  \"title\": \"Terminal Narrative Configuration\",
+  \"description\": \"Schema for terminal narrative JSON configurations\",
+  \"type\": \"object\",
+  \"required\": [\"narrative\", \"version\", \"startContext\"],
+  
+  \"properties\": {
+    \"narrative\": {
+      \"type\": \"string\",
+      \"description\": \"Unique narrative identifier\"
+    },
+    
+    \"version\": {
+      \"type\": \"string\",
+      \"description\": \"Narrative version\",
+      \"pattern\": \"^\\d+\\.\\d+(\\.\\d+)?$\"
+    },
+    
+    \"startContext\": {
+      \"type\": \"string\",
+      \"description\": \"Initial context to load\"
+    },
+    
+    \"description\": {
+      \"type\": \"string\",
+      \"description\": \"Brief narrative description\"
+    },
+    
+    \"systems\": {
+      \"type\": \"array\",
+      \"description\": \"Available systems in the narrative\",
+      \"items\": {
+        \"type\": \"object\",
+        \"required\": [\"id\", \"type\"],
+        \"properties\": {
+          \"id\": { \"type\": \"string\" },
+          \"type\": { 
+            \"type\": \"string\",
+            \"enum\": [\"local\", \"bbs\", \"ssh\"]
+          },
+          \"hostname\": { \"type\": \"string\" },
+          \"address\": { \"type\": \"string\" },
+          \"requiresAuth\": { \"type\": \"boolean\" },
+          \"credentials\": {
+            \"type\": \"object\",
+            \"properties\": {
+              \"user\": { \"type\": \"string\" },
+              \"pass\": { \"type\": \"string\" }
+            }
+          },
+          \"filesystem\": { \"type\": \"object\" },
+          \"menus\": { \"type\": \"object\" }
+        }
+      }
+    },
+    
+    \"progression\": {
+      \"type\": \"object\",
+      \"description\": \"Narrative progression system\",
+      \"properties\": {
+        \"flags\": {
+          \"type\": \"array\",
+          \"items\": { \"type\": \"string\" }
+        },
+        \"winCondition\": {
+          \"type\": \"object\",
+          \"properties\": {
+            \"flags\": {
+              \"type\": \"array\",
+              \"items\": { \"type\": \"string\" }
+            },
+            \"allFlags\": { \"type\": \"boolean\" }
+          }
+        }
+      }
+    },
+    
+    \"dialogues\": {
+      \"type\": \"object\",
+      \"description\": \"Narrative dialogues and text\",
+      \"properties\": {
+        \"intro\": { \"type\": \"string\" },
+        \"victory\": { \"type\": \"string\" },
+        \"failure\": { \"type\": \"string\" }
+      }
+    },
+    
+    \"hints\": {
+      \"type\": \"object\",
+      \"description\": \"Optional hints for players\",
+      \"additionalProperties\": { \"type\": \"string\" }
+    }
+  }
+}
+"
+Observation: Create successful: /app/terminal-engine/narratives/schema.json
