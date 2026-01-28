@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/core/event-bus.js --file-text "/**
+/**
  * EventBus - Central event system for decoupled communication
  * Implements Observer pattern for system-wide events
  */
