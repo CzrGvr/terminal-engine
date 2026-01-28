@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/narratives/AUTHOR_GUIDE.md --file-text "/**
+/**
  * GUÍA PARA AUTORES DE NARRATIVAS
  * Terminal Narrative Engine
  */
