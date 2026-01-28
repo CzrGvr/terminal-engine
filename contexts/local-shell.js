@@ -1,5 +1,4 @@
-Ahora voy a crear los contextos específicos (LocalShell, BBS, SSH) y los archivos utils. Debido al volumen de código, los crearé en lotes:
-Action: file_editor create /app/terminal-engine/contexts/local-shell.js --file-text "/**
+/**
  * LocalShell - Unix-like local shell context
  * Implements basic shell commands (ls, cd, cat, etc.)
  */
@@ -392,7 +391,7 @@ class LocalShell extends BaseContext {
         commands.forEach(cmd => {
             output += `  ${cmd.name.padEnd(12)} - ${cmd.description}\n`;
         });
-        output += '\nType \"help <command>\" for more information.';
+        output += '\nType "help <command>" for more information.';
 
         return { success: true, output, className: 'text-info' };
     }
@@ -415,14 +414,7 @@ class LocalShell extends BaseContext {
         if (args.length === 0) {
             return {
                 success: false,
-                error: 'ssh: missing host address'
-            };
-        }
-
-        if (!stateManager.hasFlag('found_ssh_address')) {
-            return {
-                success: false,
-                error: 'ssh: command not found\n(Hint: You need to discover SSH capabilities first)'
+                error: 'ssh: missing host address\nUsage: ssh <address>\nExample: ssh vault-mainframe.local'
             };
         }
 
@@ -563,5 +555,3 @@ class LocalShell extends BaseContext {
 }
 
 export { LocalShell };
-"
-Observation: Create successful: /app/terminal-engine/contexts/local-shell.js
