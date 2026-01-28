@@ -192,5 +192,4 @@ class NarrativeLoader {
 const narrativeLoader = new NarrativeLoader();
 
 export { narrativeLoader, NarrativeLoader };
-"
-Observation: Create successful: /app/terminal-engine/narratives/narrative-loader.js
+
