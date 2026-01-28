@@ -375,5 +375,3 @@ class StateManager {
 const stateManager = new StateManager();
 
 export { stateManager, StateManager };
-"
-Observation: Create successful: /app/terminal-engine/core/state-manager.js
