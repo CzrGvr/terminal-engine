@@ -95,5 +95,4 @@ class EventBus {
 const eventBus = new EventBus();
 
 export { eventBus, EventBus };
-"
-Observation: Create successful: /app/terminal-engine/core/event-bus.js
+
