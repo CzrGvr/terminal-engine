@@ -1,5 +1,4 @@
-Continuando con los archivos del núcleo y contextos:
-Action: file_editor create /app/terminal-engine/core/command-registry.js --file-text "/**
+/**
  * CommandRegistry - Dynamic command registration system
  * Implements Strategy Pattern for extensible command handling
  */
