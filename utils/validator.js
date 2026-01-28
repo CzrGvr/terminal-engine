@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/utils/validator.js --file-text "/**
+/**
  * Validator - JSON Schema validation for narrative configurations
  */
 
