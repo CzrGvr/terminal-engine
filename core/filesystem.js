@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/core/filesystem.js --file-text "/**
+/**
  * FileSystem - Virtual file system for terminal navigation
  * Supports Unix-like directory structure and operations
  */
