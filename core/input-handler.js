@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/core/input-handler.js --file-text "/**
+/**
  * InputHandler - Handles keyboard input, command history, and command execution
  * Manages ↑/↓ navigation through history and TAB autocompletion
  */
