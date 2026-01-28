@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/contexts/base-context.js --file-text "/**
+/**
  * BaseContext - Abstract base class for all terminal contexts
  * Provides interface that all contexts must implement
  */
