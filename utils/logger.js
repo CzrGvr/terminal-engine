@@ -1,5 +1,4 @@
-
-Action: file_editor create /app/terminal-engine/utils/logger.js --file-text "/**
+/**
  * Logger - Debug logging system
  */
 
