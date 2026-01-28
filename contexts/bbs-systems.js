@@ -1,5 +1,4 @@
-Continuando con los contextos BBS y SSH, y luego los utilidades:
-Action: file_editor create /app/terminal-engine/contexts/bbs-system.js --file-text "/**
+/**
  * BBSSystem - Bulletin Board System context
  * Simulates retro BBS with menus, messages, and file downloads
  */
