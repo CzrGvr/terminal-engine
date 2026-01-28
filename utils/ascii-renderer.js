@@ -104,5 +104,4 @@ class ASCIIRenderer {
 const asciiRenderer = new ASCIIRenderer();
 
 export { asciiRenderer, ASCIIRenderer };
-"
-Observation: Create successful: /app/terminal-engine/utils/ascii-renderer.js
+
