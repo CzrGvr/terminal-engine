@@ -1,52 +1,18 @@
 // app.js
-import { EventBus } from './core/event-bus.js';
-import { StateManager } from './core/state-manager.js';
-import { FileSystem } from './core/filesystem.js';
-import { TerminalRenderer } from './core/terminal-renderer.js';
-import { InputHandler } from './core/input-handler.js';
-import { CommandRegistry } from './core/command-registry.js';
-import { ContextManager } from './core/context-manager.js';
-import { LocalShell } from './contexts/local-shell.js';
+import { TerminalApp } from './core/terminal-renderer.js';
 
-// Esperar a que el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize app once DOM is ready
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('🚀 Initializing Terminal Engine...');
 
     try {
-        // Inicializar componentes core
-        const eventBus = new EventBus();
-        const stateManager = new StateManager();
-        const fileSystem = new FileSystem();
-        const renderer = new TerminalRenderer();
-        const commandRegistry = new CommandRegistry();
-        const contextManager = new ContextManager(renderer, commandRegistry);
-        
-        // Crear input handler
-        const inputHandler = new InputHandler(
-            document.getElementById('terminal-input'),
-            commandRegistry,
-            contextManager
-        );
-
-        // Registrar contexto inicial (Local Shell)
-        const localShell = new LocalShell(renderer, fileSystem, stateManager);
-        contextManager.registerContext('local', localShell);
-        contextManager.switchContext('local');
-
-        // Mostrar mensaje de bienvenida
-        renderer.printWelcome();
+        const app = new TerminalApp();
+        await app.initialize();
 
         console.log('Terminal Engine initialized successfully');
-        
-        // Guardar globalmente para debugging
-        window.terminal = {
-            renderer,
-            inputHandler,
-            contextManager,
-            fileSystem,
-            stateManager
-        };
 
+        // Expose for debugging
+        window.terminalApp = app;
     } catch (error) {
         console.error('Failed to initialize Terminal Engine:', error);
         document.body.innerHTML = `
