@@ -11,7 +11,7 @@ import { stateManager } from '../core/state-manager.js';
 class LocalShell extends BaseContext {
     constructor() {
         super('localhost', 'Local Shell', 'local');
-        this.hostname = 'vault-tec';
+        this.hostname = 'terminal';
         this.username = 'root';
     }
 
@@ -224,7 +224,7 @@ class LocalShell extends BaseContext {
     }
 
     async cmdCd(args) {
-        const path = args[0] || '/home/vault-dweller';
+        const path = args[0] || '/home/crew';
         
         if (filesystem.changeDirectory(path)) {
             return { success: true };
@@ -392,6 +392,7 @@ class LocalShell extends BaseContext {
             output += `  ${cmd.name.padEnd(12)} - ${cmd.description}\n`;
         });
         output += '\nType "help <command>" for more information.';
+        output += '\n\nNote: For an authoritative, contextual list run "help" (global).';
 
         return { success: true, output, className: 'text-info' };
     }
@@ -414,7 +415,7 @@ class LocalShell extends BaseContext {
         if (args.length === 0) {
             return {
                 success: false,
-                error: 'ssh: missing host address\nUsage: ssh <address>\nExample: ssh vault-mainframe.local'
+                error: 'ssh: missing host address\nUsage: ssh <address>\nExample: ssh mainframe.local'
             };
         }
 
