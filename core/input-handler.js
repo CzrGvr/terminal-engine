@@ -105,6 +105,7 @@ class InputHandler {
      */
     async handleEnter() {
         const input = this.inputElement.value.trim();
+        console.debug('[InputHandler] Enter pressed:', input);
         
         if (!input) {
             eventBus.emit('terminal:output', { text: '', className: '' });
