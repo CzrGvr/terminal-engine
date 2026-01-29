@@ -14,6 +14,7 @@ class TerminalRenderer {
     constructor() {
         this.outputElement = null;
         this.promptElement = null;
+        this.connectionElement = null;
         this.typingSpeed = 2; // ms per character
         this.isTyping = false;
         this.typingQueue = [];
@@ -28,17 +29,26 @@ class TerminalRenderer {
 
         this.outputElement = document.getElementById('terminal-output');
         this.promptElement = document.getElementById('prompt');
+        this.connectionElement = document.getElementById('connection-status');
 
         if (!this.outputElement || !this.promptElement) {
             console.error('Terminal elements not found');
             return;
         }
 
+        // Initialize connection status label
+        if (this.connectionElement) {
+            this.connectionElement.textContent = 'LOCAL';
+        }
+
         // Setup event listeners
         eventBus.on('terminal:output', (data) => this.print(data.text, data.className));
         eventBus.on('terminal:clear', () => this.clear());
         eventBus.on('terminal:glitch', (data) => this.triggerGlitch(data.duration));
-        eventBus.on('context:changed', (data) => this.updatePrompt(data.prompt));
+        eventBus.on('context:changed', (data) => {
+            this.updatePrompt(data.prompt);
+            this.updateConnectionStatus(data.contextId || data.context?.type || 'local');
+        });
 
         this.initialized = true;
     }
@@ -137,6 +147,29 @@ class TerminalRenderer {
         if (this.promptElement) {
             this.promptElement.textContent = prompt;
         }
+    }
+
+    /**
+     * Update the connection status indicator in the UI
+     * @param {string} contextIdOrType - Context identifier or type
+     */
+    updateConnectionStatus(contextIdOrType) {
+        if (!this.connectionElement) return;
+
+        const key = (contextIdOrType || '').toString().toLowerCase();
+
+        let label = 'LOCAL';
+        if (key.includes('bbs')) {
+            label = 'BBS';
+        } else if (key.includes('ssh') || key.includes('mainframe') || key.includes('remote')) {
+            label = 'MAINFRAME';
+        } else if (key.includes('local') || key.includes('localhost')) {
+            label = 'LOCAL';
+        } else {
+            label = key.toUpperCase();
+        }
+
+        this.connectionElement.textContent = label;
     }
 
     /**
@@ -282,7 +315,7 @@ class TerminalApp {
 
         // Import and register contexts dynamically
         const { LocalShell } = await import('../contexts/local-shell.js');
-        const { BBSSystem } = await import('../contexts/bbs-system.js');
+        const { BBSSystem } = await import('../contexts/bbs-systems.js');
         const { SSHClient } = await import('../contexts/ssh-client.js');
 
         const localShell = new LocalShell();
@@ -354,23 +387,24 @@ class TerminalApp {
      * Show welcome screen
      */
     async showWelcomeScreen() {
-        const welcomeArt = `
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║   ██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗              ║
-║   ██║   ██║██╔══██╗██║   ██║██║  ╚══██╔══╝              ║
-║   ██║   ██║███████║██║   ██║██║     ██║                 ║
-║   ╚██╗ ██╔╝██╔══██║██║   ██║██║     ██║                 ║
-║    ╚████╔╝ ██║  ██║╚██████╔╝███████╗██║                 ║
-║     ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝                 ║
-║                                                           ║
-║              T E R M I N A L   S Y S T E M               ║
-║                      v 2.1                                ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
-`;
+        const remotePath = 'narratives/demo-story/assets/welcome-art.txt';
 
-        this.renderer.printASCII(welcomeArt);
+        // Force fetch the welcome art; if unavailable show a short notice.
+        const shortNotice = '\n[Welcome art unavailable]\n';
+
+        try {
+            const res = await fetch(remotePath, { cache: 'no-store' });
+            if (res.ok) {
+                const text = await res.text();
+                this.renderer.printASCII(text);
+            } else {
+                console.warn(`Welcome art fetch returned status ${res.status}`);
+                this.renderer.printASCII(shortNotice);
+            }
+        } catch (err) {
+            console.warn('Failed to fetch welcome art, showing short notice:', err);
+            this.renderer.printASCII(shortNotice);
+        }
         
         await this.renderer.sleep(500);
         
@@ -383,8 +417,8 @@ class TerminalApp {
         await this.renderer.sleep(500);
         
         await this.renderer.print('\n════════════════════════════════════════════════', 'text-dim');
-        await this.renderer.print('Welcome to VAULT-TEC Terminal System', 'text-bright');
-        await this.renderer.print('Post-Apocalyptic Network Interface v2.1', 'text-info');
+        await this.renderer.print('Welcome to SECURITY Terminal System', 'text-bright');
+        await this.renderer.print('Network Interface v2.1', 'text-info');
         await this.renderer.print('════════════════════════════════════════════════\n', 'text-dim');
         
         await this.renderer.print('Your mission: Investigate mysterious transmissions', 'text-warning');
