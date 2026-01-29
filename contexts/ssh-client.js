@@ -35,8 +35,9 @@ class SSHClient extends BaseContext {
 
         // Check if host is known
         const knownHosts = {
-            'vault-mainframe.local': { requires_auth: true, accessible: true },
+            'mainframe.local': { requires_auth: true, accessible: true },
             'research-facility.secure': { requires_auth: true, accessible: stateManager.hasFlag('found_facility_code') },
+            'data-vault.secure': { requires_auth: true, accessible: true },
             '192.168.1.10': { requires_auth: false, accessible: true }
         };
 
@@ -92,7 +93,7 @@ class SSHClient extends BaseContext {
     async showWelcome() {
         const welcome = `
 ════════════════════════════════════════════════
-  VAULT-TEC MAINFRAME SYSTEM
+    SECURITY MAINFRAME SYSTEM
   Authorized Access Only
 ════════════════════════════════════════════════
 
@@ -184,7 +185,7 @@ Type \"help\" for available commands.
         await this.sleep(this.latency + 500);
 
         // Valid passwords based on discovered info
-        const validPasswords = ['RAVEN_NIGHT_SHADOW', 'vault-tec-admin', 'override-alpha'];
+        const validPasswords = ['RAVEN_NIGHT_SHADOW', 'SECURITY-admin', 'override-alpha'];
 
         if (validPasswords.includes(password)) {
             this.authenticated = true;
@@ -298,7 +299,7 @@ backup.tar.gz`;
         const scanResult = `
 Scan Results:
 -------------
-System: Vault-Tec Mainframe v4.2
+System: SECURITY Mainframe v4.2
 Status: OPERATIONAL
 Security: ACTIVE
 Open Ports: 22 (SSH), 80 (HTTP)
@@ -418,9 +419,11 @@ Network Activity: MODERATE
             .map(cmd => `  ${cmd.name.padEnd(12)} - ${cmd.description}`)
             .join('\n');
 
+        const note = '\n\nNote: For an authoritative, contextual list run "help" (global).';
+
         return {
             success: true,
-            output: `Available SSH commands:\n\n${commands}`,
+            output: `Available SSH commands:\n\n${commands}${note}`,
             className: 'text-info'
         };
     }
