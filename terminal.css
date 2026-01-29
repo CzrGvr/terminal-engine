@@ -105,6 +105,15 @@ body {
     text-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
 }
 
+/* Hide native scrollbars but keep scrolling behavior */
+#terminal-output {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+#terminal-output::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 /* Custom scrollbar */
 #terminal-output::-webkit-scrollbar {
     width: 8px;
@@ -209,9 +218,22 @@ body {
 /* ASCII art styling */
 .ascii-art {
     color: #00ff00;
-    text-shadow: 0 0 3px rgba(0, 255, 0, 0.5);
-    line-height: 1.2;
+    /* remove shadow for maximum glyph crispness */
+    text-shadow: none;
+    /* Preserve exact spacing/newlines for ASCII art */
+    white-space: pre;
+    word-wrap: normal;
+    overflow-x: visible;
+    display: block;
+    line-height: 1;
     font-size: 16px;
+    /* Prefer common system monospace fonts that include box-drawing glyphs */
+    font-family: Consolas, 'Courier New', 'Lucida Console', 'DejaVu Sans Mono', monospace;
+    /* Disable ligatures which can alter character shapes */
+    font-variant-ligatures: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0;
 }
 
 /* Glitch effect for corruption events */
@@ -398,4 +420,3 @@ body {
         font-size: 14px;
     }
 }
-
