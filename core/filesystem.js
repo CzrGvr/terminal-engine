@@ -8,7 +8,7 @@ import { eventBus } from './event-bus.js';
 class FileSystem {
     constructor() {
         this.root = {};
-        this.currentPath = '/home/vault-dweller';
+        this.currentPath = '/home/crew';
         this.initialized = false;
     }
 
@@ -25,21 +25,21 @@ class FileSystem {
                     'home': {
                         type: 'directory',
                         contents: {
-                            'vault-dweller': {
+                            'crew': {
                                 type: 'directory',
                                 contents: {
                                     'welcome.txt': {
                                         type: 'file',
-                                        content: `VAULT-TEC TERMINAL SYSTEM v2.1
+                                        content: `SECURITY TERMINAL SYSTEM v2.1
 ================================
 
-Welcome to the Post-Apocalyptic Network Interface.
+Welcome to the Network Interface.
 Your mission: Investigate the mysterious transmissions.
 
 Available commands: help, ls, cd, cat, clear
 Connect to remote systems: ssh, telnet
 
-Good luck, Vault Dweller.`,
+Good luck, Crew Member.`,
                                         permissions: 'rw-r--r--'
                                     },
                                     'notes.txt': {
@@ -83,16 +83,16 @@ Need to find more information...`,
                                 type: 'file',
                                 content: `# Network Configuration
 127.0.0.1       localhost
-192.168.1.10    vault-mainframe.local
+192.168.1.10    mainframe.local
 10.0.0.50       darknet.bbs.net
-172.16.0.100    research-facility.secure`,
+172.16.0.100    data-vault.secure`,
                                 permissions: 'r--r--r--'
                             },
                             'motd': {
                                 type: 'file',
                                 content: `
 ╔═══════════════════════════════════════════╗
-║  VAULT-TEC SECURITY TERMINAL SYSTEM       ║
+║  SECURITY TERMINAL SYSTEM                 ║
 ║  Authorized Personnel Only                ║
 ║  All access is monitored and logged       ║
 ╚═══════════════════════════════════════════╝`,
