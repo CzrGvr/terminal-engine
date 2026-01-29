@@ -62,25 +62,32 @@ class BBSSystem extends BaseContext {
     }
 
     async showBanner() {
-        const banner = `
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║   ██████╗  █████╗ ██████╗ ██╗  ██╗███╗   ██╗███████╗████████╗ ║
-║   ██╔══██╗██╔══██╗██╔══██╗██║ ██╔╝████╗  ██║██╔════╝╚══██╔══╝ ║
-║   ██║  ██║███████║██████╔╝█████╔╝ ██╔██╗ ██║█████╗     ██║    ║
-║   ██║  ██║██╔══██║██╔══██╗██╔═██╗ ██║╚██╗██║██╔══╝     ██║    ║
-║   ██████╔╝██║  ██║██║  ██║██║  ██╗██║ ╚████║███████╗   ██║    ║
-║   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝    ║
-║                                                           ║
-║              Underground Information Exchange             ║
-║                    Since 2077                             ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
-`;
-        eventBus.emit('terminal:output', {
-            text: banner,
-            className: 'ascii-art'
-        });
+        const remotePath = 'narratives/demo-story/assets/darknet-banner.txt';
+
+        // Strictly fetch the banner asset; if it fails, show a short notice.
+        try {
+            const res = await fetch(remotePath, { cache: 'no-store' });
+            if (res.ok) {
+                const text = await res.text();
+                eventBus.emit('terminal:output', {
+                    text,
+                    className: 'ascii-art'
+                });
+                return;
+            }
+
+            console.warn(`Banner fetch returned status ${res.status}`);
+            eventBus.emit('terminal:output', {
+                text: '\n[BBS banner unavailable]',
+                className: 'text-dim'
+            });
+        } catch (err) {
+            console.warn('Failed to fetch remote banner:', err);
+            eventBus.emit('terminal:output', {
+                text: '\n[BBS banner unavailable]',
+                className: 'text-dim'
+            });
+        }
     }
 
     async showLoginPrompt() {
@@ -114,7 +121,7 @@ class BBSSystem extends BaseContext {
   [2] File Library
   [3] User List
   [4] System Info
-  [5] Logout
+  [5] Exit
 
 ═══════════════════════════════════════════
 
@@ -197,6 +204,7 @@ Type number or command name to continue.
             },
             {
                 name: 'exit',
+                aliases: ['5'],
                 contexts: ['bbs'],
                 description: 'Disconnect from BBS',
                 usage: 'exit',
@@ -233,7 +241,7 @@ Type number or command name to continue.
         // Check credentials
         const validCreds = [
             { user: 'ghost', pass: 'shadow1337' },
-            { user: 'admin', pass: 'vault-tec' },
+            { user: 'admin', pass: 'SECURITY' },
             { user: 'guest', pass: 'guest' }
         ];
 
@@ -330,7 +338,7 @@ Type \"menu\" to return to main menu.
         const files = `
 ════════════════ FILE LIBRARY ════════════════
 
-  vault-map.txt          2.3 KB    Public
+  network-map.txt        2.3 KB    Public
   radio-frequencies.txt  1.8 KB    Public
   research-notes.txt     4.1 KB    Members
   classified-data.zip    8.7 KB    Encrypted 🔒
@@ -384,8 +392,8 @@ Online now: 3
   Files: 342
   Messages: 2,891
 
-  Running on: Vault-Tec Terminal System
-  Network: Post-Apocalyptic Mesh Network
+  Running on: SECURITY Terminal System
+  Network: Station Mesh Network
 
 \"Knowledge is power. Share responsibly.\"
 `;
@@ -414,7 +422,7 @@ Online now: 3
 
         const filename = args[0];
         const availableFiles = {
-            'vault-map.txt': 'Map of nearby vault locations...\nVault 13: 37.2431° N, 115.7930° W',
+            'network-map.txt': 'Map of nearby nodes...\nNode 13: 37.2431° N, 115.7930° W',
             'radio-frequencies.txt': 'Emergency frequencies:\n144.39 MHz - Vault Network\n446.50 MHz - Wasteland Comms',
             'research-notes.txt': 'CLASSIFIED RESEARCH\n\nProject RAVEN initiated.\nObjective: Neural interface development.\n\nAccess code fragment discovered: _NIGHT_SHADOW'
         };
@@ -440,7 +448,7 @@ Online now: 3
         }
 
         // Save to filesystem
-        filesystem.writeFile(`/home/vault-dweller/downloads/${filename}`, availableFiles[filename]);
+        filesystem.writeFile(`/home/crew/downloads/${filename}`, availableFiles[filename]);
         stateManager.addToInventory(filename);
 
         // Set flag if research notes downloaded
@@ -472,8 +480,8 @@ Online now: 3
 
         const msgNum = parseInt(args[0]);
         const messages = {
-            1: 'From: wanderer\nSubject: Safe zones\n\nFound a clean water source near the old facility. Coordinates in vault-map.txt.',
-            2: 'From: techie\nSubject: Terminal access\n\nAnyone know how to bypass Vault-Tec security? Need access codes.',
+            1: 'From: wanderer\nSubject: Safe zones\n\nFound a clean water source near the old facility. Coordinates in network-map.txt.',
+            2: 'From: techie\nSubject: Terminal access\n\nAnyone know how to bypass SECURITY systems? Need access codes.',
             3: 'From: ghost\nSubject: Research data\n\nCheck file library for updates. More fragments incoming.',
             4: 'From: [ENCRYPTED]\nSubject: [ENCRYPTED]\n\n[This message requires level 2 clearance]'
         };
@@ -506,9 +514,11 @@ Online now: 3
             .map(cmd => `  ${cmd.name.padEnd(12)} - ${cmd.description}`)
             .join('\n');
 
+        const note = '\n\nNote: For an authoritative, contextual list run "help" (global).';
+
         return {
             success: true,
-            output: `Available BBS commands:\n\n${commands}`,
+            output: `Available BBS commands:\n\n${commands}${note}`,
             className: 'text-info'
         };
     }
