@@ -12,6 +12,7 @@ class ContextManager {
         this.contexts = new Map();
         this.currentContext = null;
         this.contextStack = [];
+        this._fsListener = null;
     }
 
     /**
@@ -75,6 +76,27 @@ class ContextManager {
             prompt,
             context: this.currentContext 
         });
+
+        // Listen for filesystem directory changes so prompt updates (e.g., after `cd`)
+        if (this._fsListener) {
+            eventBus.off('filesystem:directory-changed', this._fsListener);
+            this._fsListener = null;
+        }
+
+        this._fsListener = () => {
+            try {
+                const updatedPrompt = this.currentContext?.getPrompt?.() || '';
+                eventBus.emit('context:changed', {
+                    contextId: this.currentContext?.id,
+                    prompt: updatedPrompt,
+                    context: this.currentContext
+                });
+            } catch (err) {
+                console.error('Error updating prompt on directory change:', err);
+            }
+        };
+
+        eventBus.on('filesystem:directory-changed', this._fsListener);
 
         // Update state
         stateManager.state.currentContext = contextId;
